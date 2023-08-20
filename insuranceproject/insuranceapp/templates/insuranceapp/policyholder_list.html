@@ -17,8 +17,8 @@
                     <td>{{ policyholder.last_name }}</td>
                     <td>{{ policyholder.first_name }}</td>
                     <td>{{ policyholder.birth_date|date:"d.m.Y" }}</td>
-                    <td>{{ policyholder.personal_identification_number }}</td>
-                    <td><a href="{{ policyholder.get_absolute_url }}">Detail</a></td>
+                    <td>{{ policyholder.personal_identification_number_as_string }}</td>
+                    <td><a href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">Detail</a></td>
                 </tr>
             {% endfor %}
         </table>

@@ -1,0 +1,9 @@
+{% extends "insuranceapp/insurance_detail.html" %}
+
+{% block insurance %}
+    {% if homeinsurance.street_and_reference_number %}
+        <p><b>Address:</b> {{ homeinsurance.address }}</p>
+    {% else %}
+        <p><b>Address:</b> {{ homeinsurance.policyholder.address }}</p>
+    {% endif %}
+{% endblock insurance %}

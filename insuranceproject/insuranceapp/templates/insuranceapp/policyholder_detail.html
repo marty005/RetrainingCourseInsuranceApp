@@ -4,7 +4,7 @@
     <h3>Policyholder Detail</h3>
     <p><b>Name</b>: {{ policyholder.full_name }}</p>
     <p><b>Birth</b> date: {{ policyholder.birth_date|date:"d.m.Y" }}</p>
-    <p><b>Personal</b> ID: {{ policyholder.personal_identification_number }}</p>
+    <p><b>Personal ID:</b> {{ policyholder.personal_identification_number_as_string }}</p>
     <p><b>Address</b>: {{ policyholder.address }}</p>
     <p><b>Email</b>: {{ policyholder.email }}</p>
     <p><b>Phone</b>: {{ policyholder.phone }}</p>
@@ -12,11 +12,27 @@
     <a href="{% url 'insuranceapp:policyholder-list' %}">List of Policyholders</a>
     <a href="{% url 'insuranceapp:policyholder-update' policyholder.id %}">Update Policyholder</a>
     <a href="{% url 'insuranceapp:policyholder-delete' policyholder.id %}">Delete Policyholder</a>
-    <p><a href="{% url 'insuranceapp:lifeinsurance-create' policyholder.id %}">Create Life Insurance</a></p>
+
+    <h4>Insurance Products</h4>
+    <form action="{% url 'insuranceapp:insurance-product-select' policyholder.id %}" method="post">
+        {% csrf_token %}
+        {% for insurance_product in insurance_product_list %}
+            <div>
+                <input type="radio" id="insurance_product{{ forloop.counter }}" name="view_name_prefix" value="{{ insurance_product.get_view_name_prefix }}">
+                <label for="insurance_product{{ forloop.counter }}">{{ insurance_product.insurance_product_name }}</label>
+            </div>
+        {% endfor %}
+        <div>
+            <input type="submit" value="Create Insurance">
+        </div>
+    </form>
+
+    <h4>List of Insurances</h4>
     {% if policyholder_isurance_list %}
         <table>
             <tr>
-                <th>Insurance Product Name</th>
+                <th>Insurance Product</th>
+                <th>Contract Date</th>
                 <th>Valid From</th>
                 <th>Valid To</th>
                 <th>Insurance Detail</th>
@@ -24,9 +40,10 @@
             {% for policyholder_isurance in policyholder_isurance_list %}
                 <tr>
                     <td>{{ policyholder_isurance.insurance_product_name }}</td>
+                    <td>{{ policyholder_isurance.contract_date|date:"d.m.Y" }}</td>
                     <td>{{ policyholder_isurance.valid_from_date|date:"d.m.Y" }}</td>
                     <td>{{ policyholder_isurance.valid_to_date|date:"d.m.Y" }}</td>
-                    <td><a href="{{ policyholder_isurance.get_absolute_url }}">Detail</a></td>
+                    <td><a href="{{ policyholder_isurance.get_detail_url }}">Detail</a></td>
                 </tr>
             {% endfor %}
         </table>

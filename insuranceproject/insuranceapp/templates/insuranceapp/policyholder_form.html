@@ -1,7 +1,6 @@
 {% extends "insuranceapp/base.html" %}
 
 {% block content %}
-
     {% if policyholder %}
         <h3>Update Policyholder</h3>
         <a href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">Policyholder Detail</a>
@@ -14,5 +13,4 @@
         {{ form.as_div }}
         <input type="submit" value="Save">
     </form>
-
 {% endblock content %}
