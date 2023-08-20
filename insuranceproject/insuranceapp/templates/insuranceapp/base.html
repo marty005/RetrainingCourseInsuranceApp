@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <title>InsuranceApp</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="{% static 'insuranceapp/style.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>Insurance App</h1>
+    </header>
+    <main>
+        {% block content %}
+            <h2>Welcome to the Insurance app!</h2>
+        {% endblock content %}
+    </main>
+</body>
+
+</html>

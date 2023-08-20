@@ -1,0 +1,21 @@
+{% extends "insuranceapp/base.html" %}
+
+{% block content %}
+    <h3>Life Insurance Detail</h3>
+    <p><b>Policyholder:</b> {{ lifeinsurance.policyholder.full_name }}</p>
+    <p><b>Validity:</b> {{ lifeinsurance.valid_from_date|date:"d.m.Y" }} - {{ lifeinsurance.valid_to_date|date:"d.m.Y" }}</p>
+    <p><b>Sum assured:</b> {{ lifeinsurance.sum_assured }} CZK</p>
+    {% if lifeinsurance.insured %}
+        <p><b>Insured:</b> {{ lifeinsurance.insured.full_name }}</p>
+    {% else %}
+        <p><b>Insured:</b> {{ lifeinsurance.policyholder.full_name }}</p>
+    {% endif %}
+    {% if lifeinsurance.beneficiary %}
+        <p><b>Beneficiary:</b> {{ lifeinsurance.beneficiary.full_name }}</p>
+    {% else %}
+        <p><b>Beneficiary:</b> {{ lifeinsurance.policyholder.full_name }}</p>
+    {% endif %}
+    <a href="{% url 'insuranceapp:policyholder-detail' lifeinsurance.policyholder.id %}">Policyholder Detail</a>
+    <a href="{% url 'insuranceapp:lifeinsurance-update' lifeinsurance.id %}">Update Life Insurance</a>
+    <a href="{% url 'insuranceapp:lifeinsurance-delete' lifeinsurance.id %}">Delete Life Insurance</a>
+{% endblock content %}

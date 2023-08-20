@@ -1,0 +1,16 @@
+{% extends "insuranceapp/base.html" %}
+
+{% block content %}
+
+    {% if lifeinsurance %}
+        <h3>Update Life Insurance</h3>
+    {% else %}
+        <h3>Create Life Insurance</h3>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <input type="submit" value="Save">
+    </form>
+
+{% endblock content %}

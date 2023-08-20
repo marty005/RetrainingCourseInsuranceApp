@@ -1,0 +1,36 @@
+{% extends "insuranceapp/base.html" %}
+
+{% block content %}
+    <h3>Policyholder Detail</h3>
+    <p><b>Name</b>: {{ policyholder.full_name }}</p>
+    <p><b>Birth</b> date: {{ policyholder.birth_date|date:"d.m.Y" }}</p>
+    <p><b>Personal</b> ID: {{ policyholder.personal_identification_number }}</p>
+    <p><b>Address</b>: {{ policyholder.address }}</p>
+    <p><b>Email</b>: {{ policyholder.email }}</p>
+    <p><b>Phone</b>: {{ policyholder.phone }}</p>
+    <p><b>Registered</b>: {{ policyholder.registration_date|date:"d.m.Y" }}</p>
+    <a href="{% url 'insuranceapp:policyholder-list' %}">List of Policyholders</a>
+    <a href="{% url 'insuranceapp:policyholder-update' policyholder.id %}">Update Policyholder</a>
+    <a href="{% url 'insuranceapp:policyholder-delete' policyholder.id %}">Delete Policyholder</a>
+    <p><a href="{% url 'insuranceapp:lifeinsurance-create' policyholder.id %}">Create Life Insurance</a></p>
+    {% if policyholder_isurance_list %}
+        <table>
+            <tr>
+                <th>Insurance Product Name</th>
+                <th>Valid From</th>
+                <th>Valid To</th>
+                <th>Insurance Detail</th>
+            </tr>
+            {% for policyholder_isurance in policyholder_isurance_list %}
+                <tr>
+                    <td>{{ policyholder_isurance.insurance_product_name }}</td>
+                    <td>{{ policyholder_isurance.valid_from_date|date:"d.m.Y" }}</td>
+                    <td>{{ policyholder_isurance.valid_to_date|date:"d.m.Y" }}</td>
+                    <td><a href="{{ policyholder_isurance.get_absolute_url }}">Detail</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p><i>There are no contracted insurances yet.</i></p>
+    {% endif %}
+{% endblock content %}
