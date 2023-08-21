@@ -1,3 +1,19 @@
-/* li a {
-    color: red;
-} */
+.material-symbols-outlined {
+    vertical-align: middle;
+}
+
+.button-detail {
+    background-color: #4285F4 !important;
+}
+
+.button-create {
+    background-color: #0F9D58 !important;
+}
+
+.button-update {
+    background-color: #F4B400 !important;
+}
+
+.button-delete {
+    background-color: #DB4437 !important;
+}

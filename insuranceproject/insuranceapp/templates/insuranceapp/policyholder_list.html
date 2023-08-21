@@ -2,25 +2,37 @@
 
 {% block content %}
     <h3>List of Policyholders</h3>
-    <a href="{% url 'insuranceapp:policyholder-create' %}">Create Policyholder</a>
+    <a class="button button-create" href="{% url 'insuranceapp:policyholder-create' %}">
+        <span class="material-symbols-outlined">personadd</span>
+        Create
+    </a>
     {% if policyholder_list %}
         <table>
-            <tr>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Birth Date</th>
-                <th>Personal ID</th>
-                <th>Policyholder Detail</th>
-            </tr>
-            {% for policyholder in policyholder_list %}
+            <thead>
                 <tr>
-                    <td>{{ policyholder.last_name }}</td>
-                    <td>{{ policyholder.first_name }}</td>
-                    <td>{{ policyholder.birth_date|date:"d.m.Y" }}</td>
-                    <td>{{ policyholder.personal_identification_number_as_string }}</td>
-                    <td><a href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">Detail</a></td>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Birth Date</th>
+                    <th>Personal ID</th>
+                    <th>Policyholder Detail</th>
                 </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for policyholder in policyholder_list %}
+                    <tr>
+                        <td>{{ policyholder.last_name }}</td>
+                        <td>{{ policyholder.first_name }}</td>
+                        <td>{{ policyholder.birth_date|date:"d.m.Y" }}</td>
+                        <td>{{ policyholder.personal_identification_number_as_string }}</td>
+                        <td>
+                            <a class="button button-detail" href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">
+                                <span class="material-symbols-outlined">person</span>
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
     {% else %}
         <p><i>There are no registered policyholders yet.</i></p>

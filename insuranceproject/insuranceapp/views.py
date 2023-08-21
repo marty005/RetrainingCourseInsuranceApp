@@ -84,7 +84,7 @@ class InsuranceCreateView(CreateView):
         initial = super().get_initial()
         initial["policyholder"] = self.kwargs["policyholder_id"]
         return initial
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["insurance_product_name"] = self.model.insurance_product_name
@@ -93,11 +93,11 @@ class InsuranceCreateView(CreateView):
     def form_valid(self, form):
         form.instance.contract_date = datetime.date.today()
         return super().form_valid(form)
-    
+
 
 class InsuranceUpdateView(UpdateView):
     template_name = "insuranceapp/insurance_form.html"
-    
+
 
 class InsuranceDeleteView(DeleteView):
     template_name = "insuranceapp/insurance_confirm_delete.html"
