@@ -76,20 +76,20 @@ class Insurace(models.Model):
         return self.insurance_product_name
     
     @classmethod
-    def get_view_name_prefix(cls):
-        return cls.insurance_product_name.replace(' ', '').lower()
+    def get_url_name_prefix(cls):
+        return cls.insurance_product_name.replace(" ", "").lower()
     
     def get_absolute_url(self):
         return self.get_detail_url()
 
     def get_detail_url(self):
-        return reverse(f"insuranceapp:{self.__class__.get_view_name_prefix()}-detail", kwargs={"pk": self.id})
+        return reverse(f"insuranceapp:{self.__class__.get_url_name_prefix()}-detail", kwargs={"pk": self.id})
 
     def get_update_url(self):
-        return reverse(f"insuranceapp:{self.__class__.get_view_name_prefix()}-update", kwargs={"pk": self.id})
+        return reverse(f"insuranceapp:{self.__class__.get_url_name_prefix()}-update", kwargs={"pk": self.id})
 
     def get_delete_url(self):
-        return reverse(f"insuranceapp:{self.__class__.get_view_name_prefix()}-delete", kwargs={"pk": self.id})
+        return reverse(f"insuranceapp:{self.__class__.get_url_name_prefix()}-delete", kwargs={"pk": self.id})
 
 
 class LifeInsurance(Insurace):

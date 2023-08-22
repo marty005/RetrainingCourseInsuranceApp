@@ -24,7 +24,7 @@ def base(request):
 
 
 def insurance_product_select(request, policyholder_id):
-    return HttpResponseRedirect(reverse(f"insuranceapp:{request.POST['view_name_prefix']}-create", kwargs={"policyholder_id": policyholder_id}))
+    return HttpResponseRedirect(reverse(f"insuranceapp:{request.POST['url_name_prefix']}-create", kwargs={"policyholder_id": policyholder_id}))
 
 
 class PolicyholderModelMixin:
@@ -77,6 +77,15 @@ class PolicyholderDeleteView(PolicyholderModelMixin, DeleteView):
     success_url = reverse_lazy("insuranceapp:policyholder-list")
 
 
+class InsuranceTemplateContextMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["policyholder_detail_url"] = reverse("insuranceapp:policyholder-detail", kwargs={"pk": context["object"].policyholder.id})
+        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
+        context["insurance_product_name"] = self.model.insurance_product_name
+        return context
+
+
 class InsuranceCreateView(CreateView):
     template_name = "insuranceapp/insurance_form.html"
 
@@ -87,6 +96,7 @@ class InsuranceCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["policyholder_detail_url"] = reverse("insuranceapp:policyholder-detail", kwargs={"pk": self.kwargs["policyholder_id"]})
         context["insurance_product_name"] = self.model.insurance_product_name
         return context
 
@@ -98,9 +108,19 @@ class InsuranceCreateView(CreateView):
 class InsuranceUpdateView(UpdateView):
     template_name = "insuranceapp/insurance_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
+        return context
+
 
 class InsuranceDeleteView(DeleteView):
     template_name = "insuranceapp/insurance_confirm_delete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
+        return context
 
     def get_success_url(self):
         return reverse("insuranceapp:policyholder-detail", kwargs={"pk": self.object.policyholder.id})

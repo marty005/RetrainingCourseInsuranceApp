@@ -3,7 +3,7 @@
 {% block content %}
     <h3>List of Policyholders</h3>
     <a class="button button-create" href="{% url 'insuranceapp:policyholder-create' %}">
-        <span class="material-symbols-outlined">personadd</span>
+        <i class="fa-solid fa-user-plus"></i>
         Create
     </a>
     {% if policyholder_list %}
@@ -26,7 +26,7 @@
                         <td>{{ policyholder.personal_identification_number_as_string }}</td>
                         <td>
                             <a class="button button-detail" href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">
-                                <span class="material-symbols-outlined">person</span>
+                                <i class="fa-solid fa-user"></i>
                                 Detail
                             </a>
                         </td>

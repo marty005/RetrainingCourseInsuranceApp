@@ -2,13 +2,31 @@
 
 {% block content %}
     {% if object %}
+        <a href="{{ insurance_detail_url }}">
+            <i class="fa-solid fa-file"></i>
+            Detail
+        </a>
         <h3>Update {{ object.insurance_product_name }}</h3>
     {% else %}
+        <a href="{{ policyholder_detail_url }}">
+            <i class="fa-solid fa-user"></i>
+            Detail
+        </a>
         <h3>Create {{ insurance_product_name }}</h3>
     {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_div }}
-        <input type="submit" value="Save">
+        {% if object %}
+            <button class="button-update" type="submit">
+                <i class="fa-solid fa-file-pen"></i>
+                Update
+            </button>
+        {% else %}
+            <button class="button-create" type="submit">
+                <i class="fa-solid fa-file-circle-plus"></i>
+                Create
+            </button>
+        {% endif %}
     </form>
 {% endblock content %}

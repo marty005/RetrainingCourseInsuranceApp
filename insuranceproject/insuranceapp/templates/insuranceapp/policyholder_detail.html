@@ -3,7 +3,7 @@
 {% block content %}
     <section>
         <a href="{% url 'insuranceapp:policyholder-list' %}">
-            <span class="material-symbols-outlined">view_list</span>
+            <i class="fa-solid fa-user-group"></i>
             Policyholders
         </a>
         <h3 class="myheader">Policyholder Detail</h3>
@@ -15,11 +15,11 @@
         <p><b>Phone</b>: {{ policyholder.phone }}</p>
         <p><b>Registered</b>: {{ policyholder.registration_date|date:"d.m.Y" }}</p>
         <a class="button button-update" href="{% url 'insuranceapp:policyholder-update' policyholder.id %}">
-            <span class="material-symbols-outlined">personedit</span>
+            <i class="fa-solid fa-user-pen"></i>
             Update
         </a>
         <a class="button button-delete" href="{% url 'insuranceapp:policyholder-delete' policyholder.id %}">
-            <span class="material-symbols-outlined">personremove</span>
+            <i class="fa-solid fa-user-minus"></i>
             Delete
         </a>
     </section>
@@ -29,7 +29,7 @@
             {% csrf_token %}
             {% for insurance_product in insurance_product_list %}
                 <div>
-                    <input type="radio" id="insurance_product{{ forloop.counter }}" name="view_name_prefix" value="{{ insurance_product.get_view_name_prefix }}"
+                    <input type="radio" id="insurance_product{{ forloop.counter }}" name="url_name_prefix" value="{{ insurance_product.get_url_name_prefix }}"
                     {% if forloop.counter == 1 %} 
                         checked
                     {% endif %}
@@ -39,7 +39,7 @@
             {% endfor %}
             <div>
                 <button class="button-create" type="submit">
-                    <span class="material-symbols-outlined">contractadd</span>
+                    <i class="fa-solid fa-file-circle-plus"></i>
                     Create
                 </button>
             </div>
@@ -67,7 +67,7 @@
                             <td>{{ policyholder_isurance.valid_to_date|date:"d.m.Y" }}</td>
                             <td>
                                 <a class="button button-detail" href="{{ policyholder_isurance.get_detail_url }}">
-                                    <span class="material-symbols-outlined">contract</span>
+                                    <i class="fa-solid fa-file"></i>
                                     Detail
                                 </a>
                             </td>

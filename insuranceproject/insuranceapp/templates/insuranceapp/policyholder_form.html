@@ -2,15 +2,31 @@
 
 {% block content %}
     {% if policyholder %}
-        <h3>Update Policyholder</h3>
-        <a href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">Policyholder Detail</a>
+        <a href="{% url 'insuranceapp:policyholder-detail' policyholder.id %}">
+            <i class="fa-solid fa-user"></i>
+            Detail
+        </a>
+        <h4>Update Policyholder</h4>
     {% else %}
-        <h3>Create Policyholder</h3>
-        <a href="{% url 'insuranceapp:policyholder-list' %}">List of Policyholders</a>
+        <a href="{% url 'insuranceapp:policyholder-list' %}">
+            <i class="fa-solid fa-user-group"></i>
+            Policyholders
+        </a>
+        <h4>Create Policyholder</h4>
     {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ form.as_div }}
-        <input type="submit" value="💾 Save">
+        {% if policyholder %}
+            <button class="button-update" type="submit">
+                <i class="fa-solid fa-user-pen"></i>
+                Update
+            </button>
+        {% else %}
+            <button class="button-create" type="submit">
+                <i class="fa-solid fa-user-plus"></i>
+                Create
+            </button>
+        {% endif %}
     </form>
 {% endblock content %}

@@ -2,8 +2,8 @@
 
 {% block content %}
     <a href="{% url 'insuranceapp:policyholder-detail' object.policyholder.id %}">
-        <span class="material-symbols-outlined">person</span>
-        Policyholder Detail
+        <i class="fa-solid fa-user"></i>
+        Detail
     </a>
     <h3>{{ object.insurance_product_name }} Detail</h3>
     <p><b>Policyholder:</b> {{ object.policyholder.full_name }}</p>
@@ -13,11 +13,11 @@
         <h3>Insurance Detail</h3>
     {% endblock insurance %}
     <a class="button button-update" href="{{ object.get_update_url }}">
-        <span class="material-symbols-outlined">contractedit</span>
+        <i class="fa-solid fa-file-pen"></i>
         Update
     </a>
     <a class="button button-delete" href="{{ object.get_delete_url }}">
-        <span class="material-symbols-outlined">contractremove</span>
+        <i class="fa-solid fa-file-circle-minus"></i>
         Delete
     </a>
 {% endblock content %}
