@@ -27,14 +27,14 @@
         <h4>Insurance Products</h4>
         <form action="{% url 'insuranceapp:insurance-product-select' policyholder.id %}" method="post">
             {% csrf_token %}
-            {% for insurance_product in insurance_product_list %}
+            {% for insurance_product_name, insurance_create_url in insurances.items %}
                 <div>
-                    <input type="radio" id="insurance_product{{ forloop.counter }}" name="url_name_prefix" value="{{ insurance_product.get_url_name_prefix }}"
+                    <input type="radio" id="{{ insurance_product_name }}" name="insurance_create_url" value="{{ insurance_create_url }}"
                     {% if forloop.counter == 1 %} 
                         checked
                     {% endif %}
                     >
-                    <label for="insurance_product{{ forloop.counter }}">{{ insurance_product.insurance_product_name }}</label>
+                    <label for="{{ insurance_product_name }}">{{ insurance_product_name }}</label>
                 </div>
             {% endfor %}
             <div>

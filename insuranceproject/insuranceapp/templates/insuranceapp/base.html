@@ -11,10 +11,10 @@
     <script src="https://kit.fontawesome.com/649b5307d8.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'insuranceapp/style.css' %}">
 </head>
-
 <body>
     <header>
-        <h1>Insurance App</h1>
+        <h1>InsuranceApp</h1>
+        {% comment %}
         <nav>
             <a href="{% url 'insuranceapp:base'%}">Home</a>
             <a href="/">Products</a>
@@ -22,12 +22,15 @@
             <a href="/">Insurances</a>
             <a href="/">Contact</a>
         </nav>
+        {% endcomment %}
     </header>
     <main>
         {% block content %}
             <h3>Welcome to the Insurance app!</h3>
         {% endblock content %}
     </main>
+    <footer>
+        <p><b>Disclaimer:</b> None of the insurances purchased through <i>InsuranceApp&reg;</i> are regulated by any authority.</p>
+    </footer>
 </body>
-
 </html>

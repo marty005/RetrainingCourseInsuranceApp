@@ -1,6 +1,6 @@
 import datetime
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
@@ -19,12 +19,13 @@ from .models import (
 )
 
 
-def base(request):
-    return render(request, "insuranceapp/base.html")
-
-
 def insurance_product_select(request, policyholder_id):
-    return HttpResponseRedirect(reverse(f"insuranceapp:{request.POST['url_name_prefix']}-create", kwargs={"policyholder_id": policyholder_id}))
+    return HttpResponseRedirect(
+        reverse(
+            request.POST["insurance_create_url"],
+            kwargs={"policyholder_id": policyholder_id},
+        )
+    )
 
 
 class PolicyholderModelMixin:
@@ -54,22 +55,34 @@ class PolicyholderDetailView(PolicyholderModelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        insurance_product_list = [insurance_product.value for insurance_product in EInsuranceProduct]
-        context["insurance_product_list"] = insurance_product_list
+        insurances = [
+            insurance_product.value for insurance_product in EInsuranceProduct
+        ]
+        context["insurances"] = {
+            insurance.insurance_product_name: insurance.get_create_url()
+            for insurance in insurances
+        }
+        print(context["insurances"])
         policyholder_isurance_list = []
-        for insurance_product in insurance_product_list:
-            policyholder_isurance_list.extend(insurance_product.objects.filter(policyholder=self.kwargs["pk"]))
+        for insurance_product in insurances:
+            policyholder_isurance_list.extend(
+                insurance_product.objects.filter(policyholder=self.kwargs["pk"])
+            )
         context["policyholder_isurance_list"] = policyholder_isurance_list
         return context
 
 
-class PolicyholderCreateView(PolicyholderModelMixin, PolicyholderFormFieldsMixin, CreateView):
+class PolicyholderCreateView(
+    PolicyholderModelMixin, PolicyholderFormFieldsMixin, CreateView
+):
     def form_valid(self, form):
         form.instance.registration_date = datetime.date.today()
         return super().form_valid(form)
 
 
-class PolicyholderUpdateView(PolicyholderModelMixin, PolicyholderFormFieldsMixin, UpdateView):
+class PolicyholderUpdateView(
+    PolicyholderModelMixin, PolicyholderFormFieldsMixin, UpdateView
+):
     pass
 
 
@@ -80,8 +93,14 @@ class PolicyholderDeleteView(PolicyholderModelMixin, DeleteView):
 class InsuranceTemplateContextMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["policyholder_detail_url"] = reverse("insuranceapp:policyholder-detail", kwargs={"pk": context["object"].policyholder.id})
-        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
+        context["policyholder_detail_url"] = reverse(
+            "insuranceapp:policyholder-detail",
+            kwargs={"pk": context["object"].policyholder.id},
+        )
+        context["insurance_detail_url"] = reverse(
+            f"insuranceapp:{self.model.get_url_name_prefix()}-detail",
+            kwargs={"pk": context["object"].id},
+        )
         context["insurance_product_name"] = self.model.insurance_product_name
         return context
 
@@ -96,7 +115,10 @@ class InsuranceCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["policyholder_detail_url"] = reverse("insuranceapp:policyholder-detail", kwargs={"pk": self.kwargs["policyholder_id"]})
+        context["policyholder_detail_url"] = reverse(
+            "insuranceapp:policyholder-detail",
+            kwargs={"pk": self.kwargs["policyholder_id"]},
+        )
         context["insurance_product_name"] = self.model.insurance_product_name
         return context
 
@@ -108,22 +130,15 @@ class InsuranceCreateView(CreateView):
 class InsuranceUpdateView(UpdateView):
     template_name = "insuranceapp/insurance_form.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
-        return context
-
 
 class InsuranceDeleteView(DeleteView):
     template_name = "insuranceapp/insurance_confirm_delete.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["insurance_detail_url"] = reverse(f"insuranceapp:{self.model.get_url_name_prefix()}-detail", kwargs={"pk": context["object"].id})
-        return context
-
     def get_success_url(self):
-        return reverse("insuranceapp:policyholder-detail", kwargs={"pk": self.object.policyholder.id})
+        return reverse(
+            "insuranceapp:policyholder-detail",
+            kwargs={"pk": self.object.policyholder.id},
+        )
 
 
 class LifeInsuranceModelMixin:
@@ -140,15 +155,20 @@ class LifeInsuranceFormFieldsMixin:
         "beneficiary",
     ]
 
+
 class LifeInsuranceDetailView(LifeInsuranceModelMixin, DetailView):
     pass
 
 
-class LifeInsuranceCreateView(LifeInsuranceModelMixin, LifeInsuranceFormFieldsMixin, InsuranceCreateView):
+class LifeInsuranceCreateView(
+    LifeInsuranceModelMixin, LifeInsuranceFormFieldsMixin, InsuranceCreateView
+):
     pass
 
 
-class LifeInsuranceUpdateView(LifeInsuranceModelMixin, LifeInsuranceFormFieldsMixin, InsuranceUpdateView):
+class LifeInsuranceUpdateView(
+    LifeInsuranceModelMixin, LifeInsuranceFormFieldsMixin, InsuranceUpdateView
+):
     pass
 
 
@@ -171,15 +191,20 @@ class HomeInsuranceFormFieldsMixin:
         "postal_code",
     ]
 
+
 class HomeInsuranceDetailView(HomeInsuranceModelMixin, DetailView):
     pass
 
 
-class HomeInsuranceCreateView(HomeInsuranceModelMixin, HomeInsuranceFormFieldsMixin, InsuranceCreateView):
+class HomeInsuranceCreateView(
+    HomeInsuranceModelMixin, HomeInsuranceFormFieldsMixin, InsuranceCreateView
+):
     pass
 
 
-class HomeInsuranceUpdateView(HomeInsuranceModelMixin, HomeInsuranceFormFieldsMixin, InsuranceUpdateView):
+class HomeInsuranceUpdateView(
+    HomeInsuranceModelMixin, HomeInsuranceFormFieldsMixin, InsuranceUpdateView
+):
     pass
 
 

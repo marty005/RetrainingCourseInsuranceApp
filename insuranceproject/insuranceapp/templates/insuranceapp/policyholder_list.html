@@ -1,7 +1,7 @@
 {% extends "insuranceapp/base.html" %}
 
 {% block content %}
-    <h3>List of Policyholders</h3>
+    <h3>Policyholders</h3>
     <a class="button button-create" href="{% url 'insuranceapp:policyholder-create' %}">
         <i class="fa-solid fa-user-plus"></i>
         Create
@@ -14,7 +14,7 @@
                     <th>First Name</th>
                     <th>Birth Date</th>
                     <th>Personal ID</th>
-                    <th>Policyholder Detail</th>
+                    <th>Detail</th>
                 </tr>
             </thead>
             <tbody>

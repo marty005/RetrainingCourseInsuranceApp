@@ -1,3 +1,15 @@
+header {
+    background-color: #78A9F7 !important;
+}
+
+th {
+    background-color: #9FC1F9 !important;
+}
+
+tr:nth-child(2) {
+    background-color: #C5DAFC !important;
+}
+
 .button-detail {
     background-color: #4285F4 !important;
 }
@@ -8,6 +20,7 @@
 
 .button-update {
     background-color: #F4B400 !important;
+    margin-right: 15px !important;
 }
 
 .button-delete {
