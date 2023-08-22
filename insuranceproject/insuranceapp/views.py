@@ -51,8 +51,6 @@ class PolicyholderListView(PolicyholderModelMixin, ListView):
 
 
 class PolicyholderDetailView(PolicyholderModelMixin, DetailView):
-    pass
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         insurances = [
@@ -87,21 +85,6 @@ class PolicyholderUpdateView(
 
 class PolicyholderDeleteView(PolicyholderModelMixin, DeleteView):
     success_url = reverse_lazy("insuranceapp:policyholder-list")
-
-
-class InsuranceTemplateContextMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["policyholder_detail_url"] = reverse(
-            "insuranceapp:policyholder-detail",
-            kwargs={"pk": context["object"].policyholder.id},
-        )
-        context["insurance_detail_url"] = reverse(
-            f"insuranceapp:{self.model.get_url_name_prefix()}-detail",
-            kwargs={"pk": context["object"].id},
-        )
-        context["insurance_product_name"] = self.model.insurance_product_name
-        return context
 
 
 class InsuranceCreateView(CreateView):
