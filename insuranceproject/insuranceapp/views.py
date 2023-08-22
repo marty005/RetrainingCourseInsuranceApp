@@ -62,7 +62,6 @@ class PolicyholderDetailView(PolicyholderModelMixin, DetailView):
             insurance.insurance_product_name: insurance.get_create_url()
             for insurance in insurances
         }
-        print(context["insurances"])
         policyholder_isurance_list = []
         for insurance_product in insurances:
             policyholder_isurance_list.extend(

@@ -6,7 +6,7 @@
             <i class="fa-solid fa-user-group"></i>
             Policyholders
         </a>
-        <h3 class="myheader">Policyholder Detail</h3>
+        <h3>Policyholder Detail</h3>
         <p><b>Name</b>: {{ policyholder.full_name }}</p>
         <p><b>Birth</b> date: {{ policyholder.birth_date|date:"d.m.Y" }}</p>
         <p><b>Personal ID:</b> {{ policyholder.personal_identification_number_as_string }}</p>
@@ -46,7 +46,7 @@
         </form>
     </section>
     <section>
-        <h4>List of Insurances</h4>
+        <h4>Insurances</h4>
         {% if policyholder_isurance_list %}
             <table>
                 <thead>
